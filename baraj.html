@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr" data-lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tahtalı Barajı: Doluluk, Yağış ve Çekilen Su | Çağlar Tükel</title>
+<meta name="description" content="Tahtalı Barajı doluluk oranı, havza yağışı ve İZSU'nun barajdan çektiği suyun su yılı bazında etkileşimli grafiği (2010–2026).">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/baraj.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="brand" href="index.html">Çağlar Tükel</a>
+<nav class="main" aria-label="Menu"><a href="index.html"><span lang="tr">Ana sayfa</span><span lang="en">Home</span></a><a href="about.html"><span lang="tr">Özgeçmiş</span><span lang="en">About</span></a><a href="baraj.html" aria-current="page"><span lang="tr">Baraj Verisi</span><span lang="en">Dam data</span></a><a href="contact.html"><span lang="tr">İletişim</span><span lang="en">Contact</span></a>
+<span class="lang" role="group" aria-label="Language / Dil"><button type="button" data-set="tr" aria-pressed="true">TR</button><button type="button" data-set="en" aria-pressed="false">EN</button></span></nav></header>
+<main class="dam">
+<div class="pagehead">
+<p class="coord">Tahtalı Barajı · İzmir · 2010–2026 su yılları</p>
+<h1>Doluluk, yağış ve çekilen su</h1>
+<p class="intro">Tahtalı Barajı'nın doluluk oranı (<span class="en-term">occupancy rate</span>), havzaya düşen aylık yağış (<span class="en-term">precipitation</span>) ve İZSU'nun barajdan çektiği su (<span class="en-term">withdrawal</span>) aynı grafikte. Su yılı (<span class="en-term">water year</span>) 1 Ekim'de başlar, 30 Eylül'de biter. Aşağıdan yıl aralığını ve gösterilecek serileri seçebilirsiniz.</p>
+</div>
+
+<form class="controls" id="kontrol" onsubmit="return false" aria-label="Grafik seçenekleri">
+<div class="ctl">
+<label for="bas">Başlangıç su yılı</label>
+<select id="bas"></select>
+</div>
+<div class="ctl">
+<label for="bit">Bitiş su yılı</label>
+<select id="bit"></select>
+</div>
+<div class="ctl quick" role="group" aria-label="Hızlı aralık">
+<span class="lbl">Hızlı seçim</span>
+<div class="chips"><button type="button" data-n="17">Tümü</button><button type="button" data-n="10">Son 10 yıl</button><button type="button" data-n="5">Son 5 yıl</button><button type="button" data-n="3">Son 3 yıl</button></div>
+</div>
+<fieldset class="ctl series">
+<legend>Gösterilecekler</legend>
+<label><input type="checkbox" id="s-doluluk" checked> Doluluk oranı</label>
+<label><input type="checkbox" id="s-cekim" checked> Çekilen su</label>
+<label><input type="checkbox" id="s-yagis" checked> Aylık yağış</label>
+<label><input type="checkbox" id="s-uc" checked> En yüksek / en düşük doluluk etiketleri</label>
+<label><input type="checkbox" id="s-yil" checked> Su yılı çizgileri</label>
+</fieldset>
+</form>
+
+<div class="chartbox"><div id="grafik" role="img" aria-label="Tahtalı Barajı doluluk oranı, aylık havza yağışı ve çekilen su grafiği"></div><p class="hint">Yakınlaştırmak için grafikte sürükleyin, sıfırlamak için çift tıklayın. Değerleri görmek için fareyle (ya da dokunarak) üzerine gelin.</p></div>
+
+<div class="cards" id="ozet" aria-live="polite"></div>
+
+<section class="notes">
+<h2>Nasıl okunur?</h2>
+<ul>
+<li><b>Doluluk oranı (%)</b> İZSU'nun yayımladığı aktif doluluk değeridir; günlük veridir. Tek günlük hatalı sıçramalar temizlendi, kaynaktaki bazı uzun boşluklar (örneğin 2012–2013 kışı, Mart–Nisan 2019) çizgide kopukluk olarak görünür.</li>
+<li><b>Aylık yağış (mm)</b> CHIRPS v2 uydu verisinden havza ortalaması olarak hesaplandı. Uydu tabanlı bir tahmindir; gerçek yağıştan sapabilir.</li>
+<li><b>Çekilen su (bin m³/gün)</b> İZSU'nun Tahtalı Barajı için yayımladığı aylık su üretimi toplamının gün sayısına bölünmüş hâlidir. Barajdan alınan ham su için bir vekil (<span class="en-term">proxy</span>) değişkendir; buharlaşmayı ve bırakılan suyu içermez.</li>
+<li>Her su yılının en yüksek (siyah) ve en düşük (kırmızı) doluluğu etiketlenmiştir. Birbirine 120 günden yakın aynı türden etiketler atlanır.</li>
+</ul>
+<p class="src">Kaynaklar: İZSU baraj doluluk ve su üretimi verileri (<a href="https://izsu.gov.tr/bilgi-merkezi/barajlar/su-durumu" target="_blank" rel="noopener">izsu.gov.tr</a>); CHIRPS v2 günlük yağış (Climate Hazards Center, UC Santa Barbara); havza sınırı ve analiz: Ç. Tükel. Bu sayfa kişisel bir çalışmadır, kurumun resmî görüşünü yansıtmaz.</p>
+</section>
+</main>
+<footer class="bot"><p><span lang="tr">Bu kişisel bir web sitesidir ve İzmir Büyükşehir Belediyesi'nin resmî görüşlerini yansıtmaz.</span><span lang="en">This is a personal website and does not reflect the official views of İzmir Metropolitan Municipality.</span></p><p>© 2026 Çağlar Tükel</p></footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-basic-dist-min@2.35.2/plotly-basic.min.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/baraj.js"></script>
+</body>
+</html>

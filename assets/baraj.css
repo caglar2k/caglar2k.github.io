@@ -1,0 +1,40 @@
+/* Baraj sayfası: site temasına (style.css değişkenleri) uyumlu kontroller ve grafik kutusu */
+.dam .pagehead{margin-bottom:20px}
+.dam .intro{max-width:70ch; margin:14px 0 0; color:var(--muted)}
+.en-term{font-style:italic}
+.controls{display:grid; grid-template-columns:repeat(2,minmax(130px,170px)) minmax(0,1fr); gap:16px 24px; align-items:end;
+  border:1px solid var(--line); background:var(--surface); padding:18px 20px; margin-bottom:20px}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0; margin:0; padding:0; border:0}
+.ctl label,.ctl .lbl,.ctl legend{font:600 .78rem var(--f-mono); letter-spacing:.05em; text-transform:uppercase; color:var(--muted); padding:0}
+.ctl select{font:600 1rem var(--f-body); color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:9px 10px; min-height:44px}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.quick{grid-column:auto}
+.chips button{font:600 .9rem var(--f-body); color:var(--accent); background:transparent; border:2px solid var(--accent); border-radius:6px; padding:7px 12px; min-height:44px; cursor:pointer}
+.chips button:hover{background:var(--accent); color:var(--accent-ink)}
+.chips button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+.series{grid-column:1/-1; display:flex; flex-direction:row; flex-wrap:wrap; gap:8px 24px; padding-top:4px}
+.series legend{width:100%; margin-bottom:6px}
+.series label{display:flex; align-items:center; gap:8px; font:400 1rem var(--f-body); letter-spacing:0; text-transform:none; color:var(--fg); min-height:32px; cursor:pointer}
+.series input{width:18px; height:18px; accent-color:var(--accent)}
+.chartbox{border:1px solid var(--line); background:var(--bg); padding:8px 8px 4px}
+#grafik{width:100%; height:640px}
+.hint{margin:4px 8px 6px; font-size:.85rem; color:var(--muted)}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:20px}
+.card{border:1px solid var(--line); border-top:3px solid var(--accent); padding:14px 16px; background:var(--surface)}
+.card .k{font:600 .74rem var(--f-mono); letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
+.card .v{font:800 1.9rem var(--f-display); letter-spacing:-.02em; margin:4px 0 0; line-height:1.1}
+.card .v small{font:600 .9rem var(--f-body); color:var(--muted); margin-left:4px}
+.card .s{font-size:.88rem; color:var(--muted); margin-top:4px}
+.notes{margin-top:44px; max-width:76ch}
+.notes h2{margin-bottom:12px}
+.notes ul{margin:0 0 16px; padding-left:20px}
+.notes li{margin-bottom:8px}
+.notes .src{font-size:.92rem; color:var(--muted)}
+@media (max-width:760px){
+  .controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quick{grid-column:1/-1}
+}
+@media (max-width:640px){
+  #grafik{height:520px}
+  .controls{padding:14px}
+}
