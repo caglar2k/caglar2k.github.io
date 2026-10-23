@@ -18,6 +18,15 @@
 .series input{width:18px; height:18px; accent-color:var(--accent)}
 .chartbox{border:1px solid var(--line); background:var(--bg); padding:8px 8px 4px}
 #grafik{width:100%; height:640px}
+#grafik2{width:100%; height:420px}
+#grafik3{width:100%; height:400px}
+.budget{margin-top:44px}
+.budget h2{margin-bottom:10px}
+.budget .intro{max-width:76ch; margin-bottom:16px}
+.budget .chartbox{margin-bottom:16px}
+.mapfig{margin:20px 0 0; border:1px solid var(--line); background:var(--bg); padding:8px}
+.mapfig img{display:block; width:100%; max-width:640px; height:auto; margin:0 auto}
+.mapfig figcaption{margin:8px 4px 2px; font-size:.9rem; color:var(--muted); max-width:76ch}
 .hint{margin:4px 8px 6px; font-size:.85rem; color:var(--muted)}
 .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:20px}
 .card{border:1px solid var(--line); border-top:3px solid var(--accent); padding:14px 16px; background:var(--surface)}
@@ -36,5 +45,7 @@
 }
 @media (max-width:640px){
   #grafik{height:520px}
+  #grafik2{height:380px}
+  #grafik3{height:360px}
   .controls{padding:14px}
 }

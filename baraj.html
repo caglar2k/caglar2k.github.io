@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tahtalı Barajı: Doluluk, Yağış ve Çekilen Su | Çağlar Tükel</title>
-<meta name="description" content="Tahtalı Barajı doluluk oranı, havza yağışı ve İZSU'nun barajdan çektiği suyun su yılı bazında etkileşimli grafiği (2010–2026).">
+<title>Tahtalı Barajı: Doluluk, Yağış, Çekilen Su ve Buharlaşma | Çağlar Tükel</title>
+<meta name="description" content="Tahtalı Barajı doluluk oranı, havza yağışı ve İZSU'nun barajdan çektiği su ile göl yüzeyi buharlaşmasının su yılı bazında etkileşimli grafikleri (2010–2026).">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
@@ -18,7 +18,7 @@
 <main class="dam">
 <div class="pagehead">
 <p class="coord">Tahtalı Barajı · İzmir · 2010–2026 su yılları</p>
-<h1>Doluluk, yağış ve çekilen su</h1>
+<h1>Doluluk, yağış, çekilen su ve buharlaşma</h1>
 <p class="intro">Tahtalı Barajı'nın doluluk oranı (<span class="en-term">occupancy rate</span>), havzaya düşen aylık yağış (<span class="en-term">precipitation</span>) ve İZSU'nun barajdan çektiği su (<span class="en-term">withdrawal</span>) aynı grafikte. Su yılı (<span class="en-term">water year</span>) 1 Ekim'de başlar, 30 Eylül'de biter. Aşağıdan yıl aralığını ve gösterilecek serileri seçebilirsiniz.</p>
 </div>
 
@@ -49,15 +49,25 @@
 
 <div class="cards" id="ozet" aria-live="polite"></div>
 
+
+<section class="budget">
+<h2>Su bütçesi ve göl yüzeyi buharlaşması</h2>
+<p class="intro">Barajın aldığı net su (<span class="en-term">net inflow</span>) = hacim değişimi + çekilen su + göl yüzeyinden buharlaşan su (<span class="en-term">lake evaporation</span>). Açık kaynaklarla (Open-Meteo/ERA5-Land meteorolojisi, uydudan göl alanı) hesaplanan buharlaşma kaybı aşağıda; grafikler yukarıda seçtiğiniz su yılı aralığına göre güncellenir.</p>
+<div class="chartbox"><div id="grafik2" role="img" aria-label="Su yılı bazında havza yağışı, net girdi ve göl buharlaşması"></div><p class="hint">Çubuklar: net girdi (koyu) + göl buharlaşması (turuncu). Siyah çizgi: havzaya düşen yağış hacmi (hm³ = milyon m³).</p></div>
+<div class="chartbox"><div id="grafik3" role="img" aria-label="Aylık göl buharlaşması hacmi ve göl yüzey alanı"></div><p class="hint">Çubuklar: aylık buharlaşma hacmi (hm³). Çizgi: göl yüzey alanı (km²). Göl küçülünce aynı derinlikteki buharlaşma çok daha az suya karşılık gelir.</p></div>
+<figure class="mapfig"><img src="assets/tahtali_gol_alani_haritasi.png" alt="Tahtalı Barajı göl kıyı çizgisinin farklı doluluk düzeylerinde değişimi" loading="lazy" width="1400" height="1400"><figcaption>Göl kıyı çizgisi doluluğa göre nasıl değişiyor? Uydu görüntülerinden NDWI (<span class="en-term">Normalized Difference Water Index</span>) ile çıkarılan su yüzeyi: %1 doluluk 1,5 km², %89 doluluk 20,6 km². Bu ölçümlerden alan–doluluk ilişkisi kuruldu (tam doluluk ≈ 21,4 km²).</figcaption></figure>
+</section>
+
 <section class="notes">
 <h2>Nasıl okunur?</h2>
 <ul>
 <li><b>Doluluk oranı (%)</b> İZSU'nun yayımladığı aktif doluluk değeridir; günlük veridir. Tek günlük hatalı sıçramalar temizlendi, kaynaktaki bazı uzun boşluklar (örneğin 2012–2013 kışı, Mart–Nisan 2019) çizgide kopukluk olarak görünür.</li>
 <li><b>Aylık yağış (mm)</b> CHIRPS v2 uydu verisinden havza ortalaması olarak hesaplandı. Uydu tabanlı bir tahmindir; gerçek yağıştan sapabilir.</li>
 <li><b>Çekilen su (bin m³/gün)</b> İZSU'nun Tahtalı Barajı için yayımladığı aylık su üretimi toplamının gün sayısına bölünmüş hâlidir. Barajdan alınan ham su için bir vekil (<span class="en-term">proxy</span>) değişkendir; buharlaşmayı ve bırakılan suyu içermez.</li>
+<li><b>Göl buharlaşması</b> açık su yüzeyi için Penman denklemiyle günlük hesaplandı (rüzgâr, sıcaklık, çiy noktası ve güneş radyasyonu: Open-Meteo arşivi, ERA5-Land tabanlı); derinlik (mm) × göl alanı (km²) hacme çevrildi. Ortalama yaklaşık 1.870 mm/yıl, yaklaşık 28 hm³/yıl. Isı depolaması yok sayıldı, göl alanı uydu verisinden tahmin edildi; değerler yaklaşık olarak okunmalıdır. Taşma ve çevresel su bırakma verisi yoktur.</li>
 <li>Her su yılının en yüksek (siyah) ve en düşük (kırmızı) doluluğu etiketlenmiştir. Birbirine 120 günden yakın aynı türden etiketler atlanır.</li>
 </ul>
-<p class="src">Kaynaklar: İZSU baraj doluluk ve su üretimi verileri (<a href="https://izsu.gov.tr/bilgi-merkezi/barajlar/su-durumu" target="_blank" rel="noopener">izsu.gov.tr</a>); CHIRPS v2 günlük yağış (Climate Hazards Center, UC Santa Barbara); havza sınırı ve analiz: Ç. Tükel. Bu sayfa kişisel bir çalışmadır, kurumun resmî görüşünü yansıtmaz.</p>
+<p class="src">Kaynaklar: İZSU baraj doluluk ve su üretimi verileri (<a href="https://izsu.gov.tr/bilgi-merkezi/barajlar/su-durumu" target="_blank" rel="noopener">izsu.gov.tr</a>); CHIRPS v2 günlük yağış (Climate Hazards Center, UC Santa Barbara); Open-Meteo Historical Weather API (<a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener">open-meteo.com</a>); Penman açık su yöntemi: FAO-56 (Allen ve diğerleri, 1998); havza sınırı ve analiz: Ç. Tükel. Bu sayfa kişisel bir çalışmadır, kurumun resmî görüşünü yansıtmaz.</p>
 </section>
 </main>
 <footer class="bot"><p><span lang="tr">Bu kişisel bir web sitesidir ve İzmir Büyükşehir Belediyesi'nin resmî görüşlerini yansıtmaz.</span><span lang="en">This is a personal website and does not reflect the official views of İzmir Metropolitan Municipality.</span></p><p>© 2026 Çağlar Tükel</p></footer>

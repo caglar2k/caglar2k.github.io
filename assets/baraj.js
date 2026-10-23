@@ -20,6 +20,8 @@
       grid: koyu ? '#26414b' : '#c5d4d9',
       doluluk: koyu ? '#56B4E9' : '#0072B2',
       cekim: koyu ? '#F0883E' : '#D55E00',
+      buhar: koyu ? '#E69F00' : '#D55E00',
+      net: koyu ? '#56B4E9' : '#0072B2',
       yagis: koyu ? 'rgba(155,176,185,0.42)' : 'rgba(122,143,166,0.45)',
       yagisAks: koyu ? '#b7c7ce' : '#3b4f66',
       tepe: koyu ? '#e5eef1' : '#111111',
@@ -132,13 +134,48 @@
                    modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d'],
                    toImageButtonOptions: { filename: 'tahtali_baraji_' + s.bas + '_' + s.bit, format: 'png', width: 1800, height: 900, scale: 2 } };
     Plotly.react('grafik', traces, layout, config);
+    butce(s, k, dar);
     ozet(s);
+  }
+
+
+  // Su bütçesi (yıllık) ve aylık göl buharlaşması
+  function butce(s, k, dar) {
+    var wy = veri.su_yili, xs = [], net = [], buh = [], yag = [], metin = [], y;
+    for (y = s.bas; y <= s.bit; y++) {
+      var r = wy[String(y)]; if (!r) continue;
+      xs.push('WY' + y); net.push(r.net_girdi_hm3); buh.push(r.buharlasma_hm3); yag.push(r.yagis_hm3);
+      metin.push('Akış katsayısı: %' + fmt(r.akis_katsayisi * 100) + ' → %' + fmt(r.akis_katsayisi_duz * 100));
+    }
+    var ortak = { font: { family: 'Source Sans 3, system-ui, sans-serif', color: k.fg }, paper_bgcolor: k.bg, plot_bgcolor: k.bg, hovermode: 'x unified',
+                  margin: { l: dar ? 46 : 64, r: dar ? 46 : 64, t: 12, b: 50 }, legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.2, font: { size: dar ? 11 : 13 } },
+                  hoverlabel: { font: { family: 'Source Sans 3, system-ui, sans-serif' } } };
+    var cfg = { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d'] };
+    var ax = function (o) { return Object.assign({ showgrid: true, gridcolor: k.grid, zeroline: false, tickfont: { size: dar ? 10 : 12 }, titlefont: { size: dar ? 11 : 13 } }, o); };
+    Plotly.react('grafik2', [
+      { type: 'bar', x: xs, y: net, name: 'Net girdi (hm³)', marker: { color: k.net }, customdata: metin, hovertemplate: '%{y:.0f} hm³ (%{customdata})<extra>Net girdi</extra>' },
+      { type: 'bar', x: xs, y: buh, name: 'Göl buharlaşması (hm³)', marker: { color: k.buhar }, hovertemplate: '%{y:.0f} hm³<extra>Göl buharlaşması</extra>' },
+      { type: 'scatter', mode: 'lines+markers', x: xs, y: yag, name: 'Havza yağışı (hm³)', line: { color: k.tepe, width: 2 }, marker: { size: 6, color: k.tepe },
+        hovertemplate: '%{y:.0f} hm³<extra>Havza yağışı</extra>' }
+    ], Object.assign({}, ortak, { barmode: 'stack', xaxis: ax({ showgrid: false, tickangle: xs.length > 9 ? -45 : 0 }), yaxis: ax({ title: dar ? '' : 'Hacim (hm³)', rangemode: 'tozero' }) }), cfg);
+
+    var aT = veri.aylik.t, basAy = (s.bas - 1) + '-10', bitAy = s.bit + '-09', mx = [], mb = [], ma = [], i;
+    for (i = 0; i < aT.length; i++) {
+      if (aT[i] >= basAy && aT[i] <= bitAy) { mx.push(aT[i] + '-15'); mb.push(veri.aylik.buharlasma_hm3[i]); ma.push(veri.aylik.gol_alani[i]); }
+    }
+    Plotly.react('grafik3', [
+      { type: 'bar', x: mx, y: mb, name: 'Aylık buharlaşma (hm³)', marker: { color: k.buhar }, width: 20 * 864e5, hovertemplate: '%{y:.1f} hm³<extra>Buharlaşma</extra>' },
+      { type: 'scatter', mode: 'lines', x: mx, y: ma, name: 'Göl alanı (km²)', yaxis: 'y2', line: { color: k.net, width: 2.5 }, hovertemplate: '%{y:.1f} km²<extra>Göl alanı</extra>' }
+    ], Object.assign({}, ortak, { bargap: 0.1,
+      xaxis: ax({ showgrid: false, hoverformat: '%B %Y' }),
+      yaxis: ax({ title: dar ? '' : 'Buharlaşma (hm³/ay)', rangemode: 'tozero', color: k.buhar }),
+      yaxis2: ax({ title: dar ? '' : 'Göl alanı (km²)', overlaying: 'y', side: 'right', showgrid: false, rangemode: 'tozero', color: k.net }) }), cfg);
   }
 
   // Seçilen aralığa göre özet kartları
   function ozet(s) {
-    var wy = veri.su_yili, topY = 0, topC = 0, n = 0, y;
-    for (y = s.bas; y <= s.bit; y++) { var r = wy[String(y)]; if (!r) continue; topY += r.yagis_mm; topC += r.cekim_hm3; n++; }
+    var wy = veri.su_yili, topY = 0, topC = 0, topB = 0, topK0 = 0, topK1 = 0, n = 0, y;
+    for (y = s.bas; y <= s.bit; y++) { var r = wy[String(y)]; if (!r) continue; topY += r.yagis_mm; topC += r.cekim_hm3; topB += r.buharlasma_hm3; topK0 += r.akis_katsayisi; topK1 += r.akis_katsayisi_duz; n++; }
     var bas = (s.bas - 1) + '-10-01', bit = s.bit + '-09-30', gT = veri.gunluk.t, gD = veri.gunluk.doluluk;
     var mx = -1, mn = 1e9, tmx = '', tmn = '';
     for (var i = 0; i < gT.length; i++) {
@@ -149,6 +186,8 @@
     var cards = [
       { k: 'Ortalama su yılı yağışı', v: fmt(topY / n), u: 'mm', s: n + ' su yılı ortalaması' },
       { k: 'Ortalama çekim', v: fmt(topC * 1000 / (n * 365)), u: 'bin m³/gün', s: 'İZSU aylık su üretimi' },
+      { k: 'Ortalama göl buharlaşması', v: fmt(topB / n), u: 'hm³/yıl', s: 'Çekimin yaklaşık %' + fmt(topB / topC * 100) + '\'i' },
+      { k: 'Ortalama akış katsayısı', v: '%' + fmt(topK1 / n * 100), u: '', s: 'buharlaşma hariç %' + fmt(topK0 / n * 100) },
       { k: 'En yüksek doluluk', v: '%' + fmt(mx, 1), u: '', s: tr(tmx) },
       { k: 'En düşük doluluk', v: '%' + fmt(mn, 1), u: '', s: tr(tmn) }
     ];
